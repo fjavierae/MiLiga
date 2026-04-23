@@ -1,7 +1,7 @@
 services:
-  db:
+  db: # Database for Development
     image: postgres:latest
-    container_name: postgres_con_schema
+    container_name: postgres_dev
     restart: always
     environment:
       POSTGRES_USER: developer
@@ -10,8 +10,21 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./database_schema.sql:/docker-entrypoint-initdb.d/database_schema.sql
-      - postgres_data:/var/lib/postgresql
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  db_test: # Database for Testing
+    image: postgres:latest
+    container_name: postgres_test
+    restart: always
+    environment:
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: my_league_test
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   postgres_data:

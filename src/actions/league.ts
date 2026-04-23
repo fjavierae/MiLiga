@@ -5,8 +5,8 @@
  */
 "use server";
 
-import { query } from "../../lib/db";
-import type { League} from "../../types";
+import { query } from "../lib/db";
+import type { League} from "../types";
 
 /**
  * Retrieves all available leagues from the database.

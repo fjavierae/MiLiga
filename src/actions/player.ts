@@ -7,8 +7,8 @@
 
 "use server";
 
-import { query } from "../../lib/db";
-import type { Player } from "../../types";
+import { query } from "../lib/db";
+import type { Player } from "../types";
 
 /**
  * Retrieves the roster for a specific team.

@@ -5,8 +5,8 @@
  */
 "use server";
 
-import { query } from "../../lib/db";
-import type { Team} from "../../types";
+import { query } from "../lib/db";
+import type { Team} from "../types";
 
 /**
  * Fetches all teams associated with a specific league.

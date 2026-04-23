@@ -5,8 +5,8 @@
  */
 "use server";
 
-import { query } from "../../lib/db";
-import type { Match} from "../../types";
+import { query } from "../lib/db";
+import type { Match} from "../types";
 
 /**
  * Fetches the match schedule for a given league.

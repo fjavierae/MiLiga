@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_con_schema
+    restart: always
+    environment:
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: my_league
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database_schema.sql:/docker-entrypoint-initdb.d/database_schema.sql
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  postgres_data:

@@ -71,3 +71,8 @@ Key Directories Description
 * src/tests/: Contains integration tests that run against the postgres_test container to ensure API reliability without polluting production data.
 
 * src/types/: Centralized TypeScript definitions used across the entire application for type safety.
+
+### 🔑 Authentication Standards
+* **Credential Validation:** Always use `bcrypt.compare` to verify passwords. Do not implement custom comparison logic.
+* **Session Security:** Cookies must be set with `httpOnly: true` and `sameSite: "lax"` as a project standard.
+* **Async Cookies:** Since Next.js 15, `cookies()` is an async function. Always `await` it before performing `get` or `set` operations.

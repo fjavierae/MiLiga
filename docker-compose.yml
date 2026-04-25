@@ -11,7 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - ./database_schema.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
 
   db_test: # Database for Testing
     image: postgres:latest

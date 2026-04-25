@@ -5,6 +5,43 @@
  */
 
 /**
+ * User roles in the system.
+ * - UserRole.ADMIN: League Commissioner - Full system control and audit capabilities
+ * - UserRole.MANAGER: Team Leader - Team management and match reporting
+ * - UserRole.PLAYER: End User - Personal stats and calendar view
+ */
+export enum UserRole {
+  ADMIN = "admin",
+  MANAGER = "manager",
+  PLAYER = "player",
+}
+
+/**
+ * User account status for player registrations.
+ * - UserStatus.PENDING: Awaiting manager approval after registration
+ * - UserStatus.ACTIVE: Approved and active player with access to the system
+ * - UserStatus.REJECTED: Registration denied by manager, no access granted
+ */
+export enum UserStatus {
+  PENDING = "pending",
+  ACTIVE = "active",
+  REJECTED = "rejected",
+}
+
+/**
+ * Represents a user in the system with authentication and role information.
+ */
+export interface User {
+  id: string;
+  email: string;
+  fullName: string;
+  role: UserRole;
+  status: UserStatus;
+  teamId?: number;
+  playerId?: number;
+}
+
+/**
  * Represents a high-level competition group.
  */
 export interface League {
@@ -40,6 +77,8 @@ export interface Player {
   /** Short code for the pitch position (e.g., 'GK', 'ST', 'CM'). */
   positionCode: string;
   teamId: number;
+  jerseyNumber?: number | null;
+  userId?: string | null;
 }
 
 /**
@@ -107,12 +146,14 @@ export interface MatchStatistic {
   yellowCards: number;
 }
 
+
+
 /**
  * Resolves a partial logo path into a fully qualified URL.
  * * @param {string | null | undefined} logo - The filename of the logo stored in the database.
  * @returns {string | null} The complete URL for the image or null if no logo is provided.
  * * @example
- * resolveTeamLogoUrl("madrid.png") // returns "https://api.myapp.com/uploads/madrid.png"
+ * Ex: resolveTeamLogoUrl("madrid.png") // returns "https://api.myapp.com/uploads/madrid.png"
  */
 export const resolveTeamLogoUrl = (logo: string | null | undefined): string | null => {
   if (!logo) {
@@ -123,3 +164,30 @@ export const resolveTeamLogoUrl = (logo: string | null | undefined): string | nu
 
   return `${baseUrl}/uploads/${logo}`;
 };
+
+/**
+ * Utility class to standardize API responses across the application.
+ * Encapsulates both successful data and error messages in a consistent structure.
+ * Provides methods to easily check for success and retrieve data or errors.
+ */
+export class Response<T> {
+    private readonly data: T | null;
+    private readonly error: string | null;
+
+    constructor(data: T | null = null, error: string | null = null) {
+        this.data = data;
+        this.error = error;
+    }
+
+    public getData(): T | null {
+        return this.data;
+    }
+
+    public getError(): string | null {
+        return this.error;
+    }
+
+    public isSuccess(): boolean {
+        return this.error === null;
+    }
+}

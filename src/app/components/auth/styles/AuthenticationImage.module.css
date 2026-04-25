@@ -1,0 +1,27 @@
+.wrapper {
+  min-height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-image: url("/img/football.jpg");
+}
+
+.form {
+  min-height: 100vh;
+  max-width: 30rem;
+  padding: 3rem;
+  padding-top: 5rem;
+
+  @media (max-width: 48em) {
+    max-width: 100%;
+  }
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: Outfit, var(--mantine-font-family);
+  font-weight: 500;
+  text-align: center;
+  margin-top: var(--mantine-spacing-md);
+  margin-bottom: 3rem;
+}

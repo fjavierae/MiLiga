@@ -1,16 +1,16 @@
 .wrapper {
-  min-height: 900px;
+  min-height: 100vh;
+  width: 100%;
   background-size: cover;
-  background-image: url(https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1280&q=80);
+  background-position: center;
+  background-image: url("/img/football.jpg");
 }
 
 .form {
-  border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-7));
-  min-height: 900px;
-  max-width: 450px;
-  padding: 30px;
-  padding-top: 80px;
-  border-radius: 0;
+  min-height: 100vh;
+  max-width: 30rem;
+  padding: 3rem;
+  padding-top: 5rem;
 
   @media (max-width: 48em) {
     max-width: 100%;
@@ -23,5 +23,5 @@
   font-weight: 500;
   text-align: center;
   margin-top: var(--mantine-spacing-md);
-  margin-bottom: 50px;
+  margin-bottom: 3rem;
 }

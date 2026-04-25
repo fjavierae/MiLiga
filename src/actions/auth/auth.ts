@@ -38,10 +38,11 @@ export async function registerPlayerAction(formData: FormData): Promise<Response
  * @return {Promise<Response<string>>} Returns a Response object containing an error message if validation fails, or null if successful (with redirection).
  * The actual redirection happens within the function after setting the session cookie.
  */
-export async function loginAction(formData: FormData): Promise<Response<string>> {
+export async function loginAction(formData: FormData): Promise<void> {
   const response = await validateLoginPlayer(formData);
   if (!response.isSuccess()) {
-    return new Response<string>(null, response.getError() ?? "An unknown error occurred.");
+    const message = response.getError() ?? "An unknown error occurred.";
+    redirect(`/?error=${encodeURIComponent(message)}`);
   }
   const user = response.getData()!;
   
@@ -73,4 +74,16 @@ export async function loginAction(formData: FormData): Promise<Response<string>>
   }
 
   redirect("/player/dashboard");
+}
+
+/**
+ * @description Logs out the user by deleting the session cookie and redirecting to the login page.
+ * This function is intended to be called from a client-side component (e.g., a logout button) and will perform the necessary server-side actions to end the user's session.
+ * @return {Promise<void>} This function does not return any data, but it performs a redirection after clearing the session cookie.
+ * Note: The redirection will happen on the client side after the server processes the logout action, so the user will be taken back to the login page or home page as defined in the redirect function.
+ */
+export async function logoutAction(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
+  redirect("/");
 }

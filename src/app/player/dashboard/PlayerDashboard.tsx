@@ -1,4 +1,4 @@
-import { Container, Title, Text, Stack, Box, ThemeIcon, Group } from '@mantine/core';
+import { Container, Title, Text, Stack, Box, ThemeIcon, Group, rem } from '@mantine/core';
 import { IconUserCircle, IconUserStar, IconCalendarStats } from '@tabler/icons-react';
 
 export default function PlayerDashboard() {
@@ -6,8 +6,8 @@ export default function PlayerDashboard() {
     <Container py="xl">
       <Stack gap="xl">
         <Group>
-          <ThemeIcon size={40} variant="light">
-            <IconUserCircle size={24} />
+          <ThemeIcon size={rem(40)} variant="light">
+            <IconUserCircle size={rem(24)} />
           </ThemeIcon>
           <div>
             <Title order={1}>🏃 Mi Dashboard</Title>
@@ -18,8 +18,8 @@ export default function PlayerDashboard() {
         <Box
           p="lg"
           style={{
-            border: '1px solid #dee2e6',
-            borderRadius: '8px',
+            border: `${rem(1)} solid #dee2e6`,
+            borderRadius: rem(8),
             backgroundColor: '#f8f9fa',
           }}
         >
@@ -72,7 +72,7 @@ export default function PlayerDashboard() {
           </Stack>
         </Box>
 
-        <Box p="lg" style={{ backgroundColor: '#e7f5ff', borderRadius: '8px' }}>
+        <Box p="lg" style={{ backgroundColor: '#e7f5ff', borderRadius: rem(8) }}>
           <Text size="sm" fw={500}>
             ⚽ ¡Que disfrutes tu experiencia! Consulta tus estadísticas y compite por ser el mejor
             de la liga.

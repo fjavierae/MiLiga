@@ -1,4 +1,4 @@
-import { Container, Title, Text, Stack, Box, ThemeIcon, Group } from '@mantine/core';
+import { Container, Title, Text, Stack, Box, ThemeIcon, Group, rem } from '@mantine/core';
 import { IconShield, IconGauge, IconClipboard } from '@tabler/icons-react';
 
 export default function AdminDashboard() {
@@ -6,8 +6,8 @@ export default function AdminDashboard() {
     <Container py="xl">
       <Stack gap="xl">
         <Group>
-          <ThemeIcon size={40} variant="light">
-            <IconShield size={24} />
+          <ThemeIcon size={rem(40)} variant="light">
+            <IconShield size={rem(24)} />
           </ThemeIcon>
           <div>
             <Title order={1}>🛡️ Admin Panel</Title>
@@ -18,8 +18,8 @@ export default function AdminDashboard() {
         <Box
           p="lg"
           style={{
-            border: '1px solid #dee2e6',
-            borderRadius: '8px',
+            border: `${rem(1)} solid #dee2e6`,
+            borderRadius: rem(8),
             backgroundColor: '#f8f9fa',
           }}
         >
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
           </Stack>
         </Box>
 
-        <Box p="lg" style={{ backgroundColor: '#fff3bf', borderRadius: '8px' }}>
+        <Box p="lg" style={{ backgroundColor: '#fff3bf', borderRadius: rem(8) }}>
           <Text size="sm" fw={500}>
             📌 Remember: You have total control over the integrity of the league. Use this power with
             responsibility.

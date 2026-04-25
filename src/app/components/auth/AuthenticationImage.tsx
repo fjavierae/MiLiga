@@ -10,22 +10,51 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { loginAction } from '@/actions/auth';
 import classes from './styles/AuthenticationImage.module.css';
 
-export function AuthenticationImage() {
+interface AuthenticationImageProps {
+  readonly errorMessage?: string;
+}
+
+export function AuthenticationImage({ errorMessage }: AuthenticationImageProps) {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form}>
         <Title order={2} className={classes.title}>
-          Welcome back to Mantine!
+          Welcome back to MiLiga!
         </Title>
 
-        <TextInput label="Email address" placeholder="hello@gmail.com" size="md" radius="md" />
-        <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" radius="md" />
-        <Checkbox label="Keep me logged in" mt="xl" size="md" />
-        <Button fullWidth mt="xl" size="md" radius="md">
-          Login
-        </Button>
+        <form action={loginAction}>
+          <TextInput
+            label="Email address"
+            placeholder="hello@gmail.com"
+            name="email"
+            type="email"
+            required
+            size="md"
+            radius="md"
+          />
+          <PasswordInput
+            label="Password"
+            placeholder="Your password"
+            name="password"
+            required
+            mt="md"
+            size="md"
+            radius="md"
+          />
+          <Checkbox label="Keep me logged in" mt="xl" size="md" />
+          <Button fullWidth mt="xl" size="md" radius="md" type="submit">
+            Login
+          </Button>
+        </form>
+
+        {errorMessage ? (
+          <Text c="red" size="sm" mt="md">
+            {errorMessage}
+          </Text>
+        ) : null}
 
         <Text ta="center" mt="md">
           Don&apos;t have an account?{' '}

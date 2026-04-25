@@ -19,35 +19,42 @@ import {
   IconMenu2,
   IconBell,
 } from '@tabler/icons-react';
-import { Center, Stack, Tooltip, UnstyledButton, Group, Box, Drawer } from '@mantine/core';
+import { Center, Stack, Tooltip, UnstyledButton, Group, Box, Drawer, rem } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import classes from './styles/Navbar.module.css';
 import { UserRole } from '@/types';
+import { logoutAction } from '@/actions/auth';
 
 interface NavbarLinkProps {
   readonly icon: typeof IconHome2;
   readonly label: string;
   readonly href?: string;
+  readonly action?: () => Promise<void>;
   readonly active?: boolean;
   readonly onClick?: () => void;
 }
 
-function NavbarLink({ icon: Icon, label, href, active, onClick }: NavbarLinkProps) {
+function NavbarLink({ icon: Icon, label, href, action, active, onClick }: NavbarLinkProps) {
   const content = (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton
         onClick={onClick}
+        type={action ? 'submit' : 'button'}
         className={classes.link}
         data-active={active || undefined}
         aria-label={label}
       >
-        <Icon size={20} stroke={1.5} />
+          <Icon size={rem(20)} stroke={1.5} />
       </UnstyledButton>
     </Tooltip>
   );
 
   if (href) {
     return <Link href={href}>{content}</Link>;
+  }
+
+  if (action) {
+    return <form action={action}>{content}</form>;
   }
 
   return content;
@@ -62,7 +69,6 @@ const adminMenuItems = [
   { icon: IconTrophy, label: 'League Management', href: '/admin/leagues' },
   { icon: IconUsers, label: 'User Authority', href: '/admin/users' },
   { icon: IconClipboardData, label: 'System Audit', href: '/admin/audit' },
-  { icon: IconSettings, label: 'Settings', href: '/admin/settings' },
 ];
 
 /**
@@ -90,9 +96,9 @@ const playerMenuItems = [
   { icon: IconUserCircle, label: 'My Profile', href: '/player/profile' },
 ];
 
-const bottomMenuItems = [
+const commonMenuItems = [
   { icon: IconSettings, label: 'Settings', href: '/settings' },
-  { icon: IconLogout, label: 'Logout', href: '/logout' },
+  { icon: IconLogout, label: 'Logout', action: logoutAction },
 ];
 
 interface NavbarProps {
@@ -103,9 +109,9 @@ interface NavbarProps {
 export function Navbar({ role = UserRole.PLAYER, userName }: NavbarProps) {
   const [active, setActive] = useState(0);
   const [drawerOpened, setDrawerOpened] = useState(false);
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 48rem)');
 
-  const getMenuItems = () => {
+  const getRoleMenuItems = () => {
     switch (role) {
       case UserRole.ADMIN:
         return adminMenuItems;
@@ -117,7 +123,7 @@ export function Navbar({ role = UserRole.PLAYER, userName }: NavbarProps) {
     }
   };
 
-  const menuItems = getMenuItems();
+  const menuItems = [...getRoleMenuItems(), ...commonMenuItems];
 
   const links = menuItems.map((link, index) => (
     <NavbarLink
@@ -131,21 +137,13 @@ export function Navbar({ role = UserRole.PLAYER, userName }: NavbarProps) {
     />
   ));
 
-  const bottomLinks = bottomMenuItems.map((link) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      onClick={() => setDrawerOpened(false)}
-    />
-  ));
-
   if (isMobile) {
     return (
       <>
         <Group justify="space-between" p="md">
           <Box>
             <UnstyledButton onClick={() => setDrawerOpened(true)}>
-              <IconMenu2 size={24} />
+              <IconMenu2 size={rem(24)} />
             </UnstyledButton>
           </Box>
           <Box>{userName && <span>{userName}</span>}</Box>
@@ -161,9 +159,6 @@ export function Navbar({ role = UserRole.PLAYER, userName }: NavbarProps) {
           <Stack justify="center" gap={0}>
             {links}
           </Stack>
-          <Stack justify="center" gap={0} mt="xl">
-            {bottomLinks}
-          </Stack>
         </Drawer>
       </>
     );
@@ -173,9 +168,9 @@ export function Navbar({ role = UserRole.PLAYER, userName }: NavbarProps) {
     <nav className={classes.navbar}>
       <Center>
         <Box title={`${role.charAt(0).toUpperCase() + role.slice(1)} Menu`}>
-          {role === UserRole.ADMIN && <IconShield size={30} color="white" />}
-          {role === UserRole.MANAGER && <IconClipboardList size={30} color="white" />}
-          {role === UserRole.PLAYER && <IconUserCircle size={30} color="white" />}
+          {role === UserRole.ADMIN && <IconShield size={rem(30)} color="white" />}
+          {role === UserRole.MANAGER && <IconClipboardList size={rem(30)} color="white" />}
+          {role === UserRole.PLAYER && <IconUserCircle size={rem(30)} color="white" />}
         </Box>
       </Center>
 
@@ -184,10 +179,6 @@ export function Navbar({ role = UserRole.PLAYER, userName }: NavbarProps) {
           {links}
         </Stack>
       </div>
-
-      <Stack justify="center" gap={0}>
-        {bottomLinks}
-      </Stack>
     </nav>
   );
 }

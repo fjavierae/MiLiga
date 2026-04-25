@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint .",
     "test": "DATABASE_URL=postgresql://developer:password123@localhost:5433/my_league_test vitest run"
   },
   "dependencies": {
